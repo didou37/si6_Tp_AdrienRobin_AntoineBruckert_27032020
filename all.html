@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>La Totale</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="semantic.min.css">
+  
+    <style type="text/css">
+
+    .hidden.menu {
+      display: none;
+    }
+
+    .masthead.segment {
+      min-height: 700px;
+      padding: 1em 0em;
+    }
+    .masthead .logo.item img {
+      margin-right: 1em;
+    }
+    .masthead .ui.menu .ui.button {
+      margin-left: 0.5em;
+    }
+    .masthead h1.ui.header {
+      margin-top: 3em;
+      margin-bottom: 0em;
+      font-size: 4em;
+      font-weight: normal;
+    }
+    .masthead h2 {
+      font-size: 1.7em;
+      font-weight: normal;
+    }
+
+    .ui.vertical.stripe {
+      padding: 8em 0em;
+    }
+    .ui.vertical.stripe h3 {
+      font-size: 2em;
+    }
+    .ui.vertical.stripe .button + h3,
+    .ui.vertical.stripe p + h3 {
+      margin-top: 3em;
+    }
+    .ui.vertical.stripe .floated.image {
+      clear: both;
+    }
+    .ui.vertical.stripe p {
+      font-size: 1.33em;
+    }
+    .ui.vertical.stripe .horizontal.divider {
+      margin: 3em 0em;
+    }
+
+    .quote.stripe.segment {
+      padding: 0em;
+    }
+    .quote.stripe.segment .grid .column {
+      padding-top: 5em;
+      padding-bottom: 5em;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .secondary.pointing.menu .toc.item {
+      display: none;
+    }
+
+    @media only screen and (max-width: 700px) {
+      .ui.fixed.menu {
+        display: none !important;
+      }
+      .secondary.pointing.menu .item,
+      .secondary.pointing.menu .menu {
+        display: none;
+      }
+      .secondary.pointing.menu .toc.item {
+        display: block;
+      }
+      .masthead.segment {
+        min-height: 350px;
+      }
+      .masthead h1.ui.header {
+        font-size: 2em;
+        margin-top: 1.5em;
+      }
+      .masthead h2 {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+      }
+    }
+	.ui.secondary.inverted.menu {
+    background-color: #fff;
+	}
+	
+	.ui.secondary.inverted.menu .link.item, .ui.secondary.inverted.menu a.item {
+    color: black!important;
+	}
+	
+	.ui.secondary.inverted.menu .active.item {
+    color: black!important;
+	}
+	#demo {
+      min-height: 700px;
+      padding: 15em 0em;
+    }
+	</style>
+	<script>
+  function ajaxGet(url, callback) {
+    var req = new XMLHttpRequest();
+    req.open("GET", url);
+    req.addEventListener("load", function () {
+        if (req.status >= 200 && req.status < 400) {
+            callback(req.responseText);
+        } else {
+            console.error(req.status + " " + req.statusText + " " + url);
+        }
+    });
+    req.addEventListener("error", function () {
+        console.error("Erreur réseau avec l'URL " + url);
+    });
+    req.send(null);
+}
+function loadCarte(){
+	var link ="https://db.ygoprodeck.com/api/v6/cardinfo.php";
+	var carteElt = document.getElementById("laCarte");
+	var asup = document.getElementById("uneCarte");
+	if(asup){
+		asup.parentNode.removeChild(asup);
+	}
+	ajaxGet(link, function (reponse) {
+		var print = JSON.parse(reponse);
+		print.forEach(function (info) {
+			var image = "https://storage.googleapis.com/ygoprodeck.com/pics/";
+			image = image.concat(info.id);
+			image = image.concat(".jpg");
+			var imageElt = document.createElement("img");
+			imageElt.id="uneCarte";
+			imageElt.src = image;
+			carteElt.appendChild(imageElt);
+		});
+	});
+}
+  </script>
+</head>
+<body>
+<div class="ui vertical inverted masthead center aligned segment">
+	<div class="ui large inverted secondary fluid three item top fixed menu">
+<a class="active item" href="api.html">
+    acceuil
+  </a>
+  <a class="item" href="html.html">
+    Trouver par nom
+  </a>
+  <a class="item"href="random.html">
+    Trouver aléatoirement
+  </a>
+</div>
+
+<div id="demo" >
+<div class="ui text container">
+<div class="ui inverted header">
+		<button class="primary basic ui button" type="button" onclick="loadCarte()">Changer de carte</button></div>
+		<div id="laCarte"></div>
+		
+		</div>
+	</div>
+</div>
+
+<div class="ui inverted vertical footer segment">
+    <div class="ui container">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="three wide column">
+          <h4 class="ui inverted header">About</h4>
+          <div class="ui inverted link list">
+            <a href="" class="item">about us</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">Services</h4>
+          <div class="ui inverted link list">
+            <a href="https://www.youtube.com/watch?v=zGf-_N9rfjA" class="item">services</a>
+			<a href="all.html">voir toutes les cartes</a>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">C'est le site a qui ?</h4>
+          <p>Antoine Bruckert et Adrien Robin</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
